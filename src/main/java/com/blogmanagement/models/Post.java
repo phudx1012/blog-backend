@@ -24,7 +24,7 @@ public class Post {
     @Column(length = 500)
     private String excerpt; // tóm tắt ngắn
 
-    @Column(columnDefinition = "NVARCHAR(MAX)")
+    @Column(columnDefinition = "LONGTEXT")
     private String content;
 
     @Enumerated(EnumType.STRING)

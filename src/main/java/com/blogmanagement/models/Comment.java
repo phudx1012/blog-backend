@@ -19,7 +19,7 @@ public class Comment {
 
     private String authorName; // tên người bình luận
 
-    @Column(columnDefinition = "NVARCHAR(MAX)")
+    @Column(columnDefinition = "LONGTEXT")
     private String content; // nội dung bình luận
 
     private LocalDateTime createdAt;
