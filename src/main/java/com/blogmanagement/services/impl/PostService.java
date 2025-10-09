@@ -12,6 +12,7 @@ import com.blogmanagement.repositories.TagRepository;
 import com.blogmanagement.services.IPostService;
 import com.blogmanagement.utils.PostSpecification;
 import com.blogmanagement.utils.PostStatus;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;
@@ -201,6 +202,20 @@ public class PostService implements IPostService {
                         .status(HttpStatus.OK)
                         .message("Post deleted successfully")
                         .build()
+        );
+    }
+
+    @Override
+    public ResponseEntity<?> getPostBySlug(String slug) {
+        Post post = postRepository.findBySlug(slug)
+                .orElseThrow(() -> new EntityNotFoundException("Post not found"));
+
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                .status(HttpStatus.OK)
+                .message("Post found successfully")
+                .data(mapPost(post))
+                .build()
         );
     }
 

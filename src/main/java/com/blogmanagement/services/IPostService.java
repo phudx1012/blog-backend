@@ -15,4 +15,6 @@ public interface IPostService {
     ResponseEntity<?> updatePost(Integer id, PostRequest request);
 
     ResponseEntity<?> deletePost(Integer id);
+
+    ResponseEntity<?> getPostBySlug(String slug);
 }

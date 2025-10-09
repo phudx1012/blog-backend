@@ -3,9 +3,10 @@ package com.blogmanagement.models;
 import com.blogmanagement.utils.PostStatus;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDateTime;
+import java.text.Normalizer;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 @Entity
 @Getter
@@ -21,6 +22,8 @@ public class Post {
 
     private String title;
 
+    private String slug; // ✅ thêm slug để dùng cho URL
+
     @Column(length = 500)
     private String excerpt; // tóm tắt ngắn
 
@@ -30,9 +33,9 @@ public class Post {
     @Enumerated(EnumType.STRING)
     private PostStatus status;
 
-
     private String author;
 
+    @Column(columnDefinition = "TEXT")
     private String thumbnailUrl; // ảnh đại diện
 
     @ManyToOne
@@ -50,7 +53,21 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comment> comments = new java.util.HashSet<>();
 
-
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    @PrePersist
+    @PreUpdate
+    public void generateSlug() {
+        if (slug == null || slug.isBlank()) {
+            this.slug = toSlug(this.title);
+        }
+    }
+
+    private String toSlug(String input) {
+        String nowhitespace = input.trim().replaceAll("\\s+", "-");
+        String normalized = Normalizer.normalize(nowhitespace, Normalizer.Form.NFD);
+        String slug = Pattern.compile("[^\\w-]").matcher(normalized).replaceAll("");
+        return slug.toLowerCase();
+    }
 }

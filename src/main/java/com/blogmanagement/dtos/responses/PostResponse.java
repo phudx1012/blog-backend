@@ -17,6 +17,9 @@ public class PostResponse {
     private String excerpt;
     private String content;
     private String status;
+    private String slug;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
     private String thumbnailUrl;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

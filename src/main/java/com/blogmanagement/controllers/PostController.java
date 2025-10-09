@@ -83,4 +83,10 @@ public class PostController {
     public ResponseEntity<?> deletePost(@PathVariable Integer id) {
         return postService.deletePost(id);
     }
+
+    @GetMapping("/post/slug/{slug}")
+    public ResponseEntity<?> getPostBySlug(@PathVariable String slug) {
+        return postService.getPostBySlug(slug);
+    }
+
 }
